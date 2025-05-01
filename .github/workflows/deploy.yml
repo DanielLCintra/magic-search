@@ -1,0 +1,49 @@
+name: CI/CD - Deploy para S3
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout do código
+        uses: actions/checkout@v3
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: 📦 Instala dependências
+        run: npm install
+
+      - name: ✅ Roda testes unitários
+        run: npm test
+
+      - name: ✅ Roda Cypress E2E
+        uses: cypress-io/github-action@v6
+        with:
+          start: npm run dev
+          wait-on: http://localhost:3000
+          wait-on-timeout: 60
+
+      - name: 🔧 Instala AWS CLI e Terraform
+        run: |
+          sudo apt-get update && sudo apt-get install -y unzip
+          curl -sSL https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o awscliv2.zip
+          unzip awscliv2.zip
+          sudo ./aws/install
+
+          curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor > hashicorp.gpg
+          sudo install -o root -g root -m 644 hashicorp.gpg /etc/apt/trusted.gpg.d/hashicorp.gpg
+          sudo apt-add-repository --yes "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+          sudo apt-get update && sudo apt-get install terraform -y
+
+      - name: 🌐 Deploy para S3 com Terraform
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: bash ./deploy.sh
