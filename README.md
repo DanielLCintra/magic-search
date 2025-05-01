@@ -28,7 +28,7 @@ normalmente com o comando: npm run dev
 /styles         -> Estilos globais (Tailwind e CSS)
 /types          -> Tipagens TypeScript personalizadas
 /cypress        -> Testes de ponta a ponta (E2E)
-/infra          -> Arquivos de infraestrutura com Terraform (deploy no AWS S3)
+/terraform          -> Arquivos de infraestrutura com Terraform (deploy no AWS S3)
 
 ------------------------------------------------------------
 ## ✅ Tecnologias Utilizadas
