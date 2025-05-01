@@ -5,11 +5,9 @@ set -e
 npm install
 npm run build
 
-# Gera saída estática
-npx next export
+# A pasta ./out já será gerada automaticamente pelo build com 'output: export'
 
-# Inicializa Terraform e aplica
-cd infra
+cd terraform
 terraform init
 terraform apply -auto-approve
 
