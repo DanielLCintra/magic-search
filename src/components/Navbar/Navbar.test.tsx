@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import Navbar from "./Navbar";
+import Navbar from "./NavBar";
 
 // Mock do next/image
 jest.mock("next/image", () => (props: any) => {
