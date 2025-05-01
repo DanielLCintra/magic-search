@@ -123,4 +123,5 @@ jobs:
           aws s3 sync ./out s3://meu-site-magic-search --delete
 
       - name: 🌐 Exibe URL do site
-        run: echo "Site disponível em: https://meu-site-magic-search.s3-website-us-east-1.amazonaws.com"
+        run: |
+          echo "Site disponível em: https://meu-site-magic-search.s3-website-us-east-1.amazonaws.com"
