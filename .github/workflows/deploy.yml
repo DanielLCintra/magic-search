@@ -1,11 +1,12 @@
-name: CI/CD - Deploy para S3
+name: CI/CD - Testes e Deploy para S3
 
 on:
   push:
     branches: [main]
 
 jobs:
-  build-and-deploy:
+  test:
+    name: 🧪 Rodar Testes (unitários + E2E)
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +21,7 @@ jobs:
       - name: 📦 Instala dependências
         run: npm install
 
-      - name: ✅ Roda testes unitários
+      - name: ✅ Roda testes unitários com Jest
         run: npm test
 
       - name: ✅ Roda Cypress E2E
@@ -29,6 +30,23 @@ jobs:
           start: npm run dev
           wait-on: http://localhost:3000
           wait-on-timeout: 60
+
+  deploy:
+    name: 🚀 Deploy para S3 via Terraform
+    runs-on: ubuntu-latest
+    needs: test # só roda se o job "test" tiver sucesso
+
+    steps:
+      - name: ⬇️ Checkout do código
+        uses: actions/checkout@v3
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: 📦 Instala dependências
+        run: npm install
 
       - name: 🔧 Instala AWS CLI e Terraform
         run: |
