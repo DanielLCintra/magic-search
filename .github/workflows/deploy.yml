@@ -124,4 +124,4 @@ jobs:
 
       - name: 🌐 Exibe URL do site
         run: |
-          echo "Site disponível em: https://meu-site-magic-search.s3-website-us-east-1.amazonaws.com"
+          echo "Site disponível em: http://meu-site-magic-search.s3-website-us-east-1.amazonaws.com"

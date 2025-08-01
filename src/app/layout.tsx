@@ -1,4 +1,4 @@
-import "../styles/globals.css";
+import "../app/globals.css";
 import { ReactQueryClientProvider } from "../lib/ReactQueryClientProvider";
 import Navbar from "../components/Navbar/NavBar";
 
